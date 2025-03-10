@@ -7,7 +7,7 @@ import numpy as np
 # Memuat data
 @st.cache_data
 def load_data():
-    combined_data = pd.read_csv('./dashboard/cleaned_combined_data.csv')
+    combined_data = pd.read_csv('./cleaned_combined_data.csv')
     combined_data['datetime'] = pd.to_datetime(combined_data[['year', 'month', 'day', 'hour']])
     combined_data.set_index('datetime', inplace=True)
     combined_data.sort_index(inplace=True)
@@ -50,7 +50,7 @@ with st.sidebar:
     elif frequency == 'Mingguan':
         resampled_data = filtered_data.resample('W').mean(numeric_only=True)
     else:  # Bulanan
-        resampled_data = filtered_data.resample('M').mean(numeric_only=True)
+        resampled_data = filtered_data.resample('ME').mean(numeric_only=True)  # Updated to 'ME'
 
     pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
 
@@ -58,12 +58,12 @@ with st.sidebar:
 plt.figure(figsize=(12, 8))
 
 for pollutant in pollutants:
-    plt.plot(resampled_data.index, resampled_data[pollutant], label=pollutant)
+    plt.plot(resampled_data.index, resampled_data[pollutant], label=pollutant)  # Ensure labels are set
 
 plt.title(f'Tren Polusi Udara ({frequency}) dari {start_date} hingga {end_date} - {selected_station}')
 plt.xlabel('Waktu')
 plt.ylabel('Konsentrasi Rata-rata')
-plt.legend()
+plt.legend()  # Ensure legend is displayed
 plt.grid(True)
 
 # Menampilkan plot di Streamlit
