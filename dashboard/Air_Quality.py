@@ -7,7 +7,7 @@ import numpy as np
 # Memuat data
 @st.cache_data
 def load_data():
-    combined_data = pd.read_csv('./cleaned_combined_data.csv')
+    combined_data = pd.read_csv('./dashboard/cleaned_combined_data.csv')
     combined_data['datetime'] = pd.to_datetime(combined_data[['year', 'month', 'day', 'hour']])
     combined_data.set_index('datetime', inplace=True)
     combined_data.sort_index(inplace=True)
